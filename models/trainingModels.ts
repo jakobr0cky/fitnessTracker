@@ -17,6 +17,14 @@ export type WorkoutExercise = {
     working_sets: WorkingSet[]
 }
 
+export type SessionExercise = {
+    session_exercise_id: string,
+    exercise_name: string,
+    number_of_sets: number,
+    rest_time_in_seconds: number,
+    working_sets: WorkingSet[]
+}
+
 enum SplitType{
     Fullbody = 1,
     UpperLower = 2,
@@ -61,3 +69,4 @@ type WorkoutSplit = {
 export {
     Exercise, ScheduledWorkout, SplitType, Workout, WorkoutExerciseOld, WorkoutSplit
 }
+

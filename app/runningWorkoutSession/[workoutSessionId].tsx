@@ -1,4 +1,4 @@
-import { WorkingSet, WorkoutExercise } from "@/models/trainingModels";
+import { SessionExercise, WorkingSet } from "@/models/trainingModels";
 import { updateWorkoutSession, upsertWorkingSets } from "@/supabase/mutations";
 import { queryWorkoutSessionExercisesInfo } from "@/supabase/queries";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -46,7 +46,7 @@ export default function RunningWorkoutSessionScreen() {
     const [timerRunning, setTimerRunning] = useState(false);
     const [restTime, setRestTime] = useState(60);
     const [resetTimer, setResetTimer] = useState(0);
-    const [exercisesData, setExercisesData] = useState<WorkoutExercise[]>();
+    const [exercisesData, setExercisesData] = useState<SessionExercise[]>();
     let startTime = useRef<Date>(new Date());
 
     useEffect(() => {
@@ -67,8 +67,8 @@ export default function RunningWorkoutSessionScreen() {
 
         let exerciseData = [];
         for (let i = 0; i < queryWorkoutSessionExercisesInfoData.length; i++) {
-            let exerciseInfo: WorkoutExercise = {
-                workout_exercise_id: queryWorkoutSessionExercisesInfoData[i].workout_exercise_id,
+            let exerciseInfo: SessionExercise = {
+                session_exercise_id: queryWorkoutSessionExercisesInfoData[i].session_exercise_id,
                 exercise_name: queryWorkoutSessionExercisesInfoData[i].exercise_name,
                 number_of_sets: queryWorkoutSessionExercisesInfoData[i].number_of_sets,
                 rest_time_in_seconds: queryWorkoutSessionExercisesInfoData[i].rest_time_in_seconds,
@@ -171,7 +171,7 @@ export default function RunningWorkoutSessionScreen() {
                     index: copiedExerciseData[i].working_sets[k].index,
                     reps: copiedExerciseData[i].working_sets[k].reps,
                     weight: copiedExerciseData[i].working_sets[k].weight,
-                    session_exercise_id: copiedExerciseData[i].workout_exercise_id
+                    session_exercise_id: copiedExerciseData[i].session_exercise_id
                 })
             }
         }

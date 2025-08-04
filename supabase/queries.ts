@@ -85,7 +85,7 @@ export const queryWorkoutsWithExerciseDetails = async (): Promise<WorkoutDetails
 
 
 export type ExerciseInfo = {
-    workout_exercise_id: string,
+    session_exercise_id: string,
     exercise_name: string,
     number_of_sets: number,
     rest_time_in_seconds: number,

@@ -52,7 +52,7 @@ export const updateWorkoutSession = async ({ workout_session_id, started_at, end
     return res.data?.[0] ?? [];
 }
 
-export const upsertWorkingSets = async ({workingSets}:{workingSets:{workout_exercise_id: string,reps: number, weight: number, index: number}[]}) => {
+export const upsertWorkingSets = async ({workingSets}:{workingSets:{session_exercise_id: string,reps: number, weight: number, index: number}[]}) => {
     const res = await supabase.from("working_sets").upsert(workingSets).select();
 
     console.log(`upsertWorkingSets res: ${JSON.stringify(res,null,2)}`)
