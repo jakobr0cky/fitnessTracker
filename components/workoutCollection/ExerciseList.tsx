@@ -1,21 +1,19 @@
 import { Exercise } from '@/models/trainingModels';
-import Color from 'color';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { ClipPath, Defs, G, Path, Rect } from 'react-native-svg';
 import {
   Button,
-  getTokens,
-  getVariableValue,
   Input,
   ScrollView,
   Text,
   useTheme,
   View,
   XStack,
-  YStack,
+  YStack
 } from 'tamagui';
+import BottomActionButton from '../buttons/BottomActionButton';
 import ExerciseCard from './ExerciseCard';
 
 
@@ -180,37 +178,11 @@ export default function ExerciseList({
           </YStack>
         </ScrollView>
       </YStack>
-
-      <YStack paddingHorizontal="$4" paddingBottom="$4">
-        <Button
-          backgroundColor={selected.length > 0 ? "#62EFFF" : "rgba(98, 239, 255, 0.3)"}
-          borderRadius="$4"
-          height="$5"
-          width="100%"
-          alignItems="center"
-          justifyContent="center"
-          borderWidth={0}
-          marginBottom={insets.bottom}
-          disabled={selected.length === 0}
-          pressStyle={{
-            backgroundColor: selected.length > 0 ? "rgba(98, 239, 255, 0.8)" : "rgba(98, 239, 255, 0.2)",
-            transform: [{ scale: 0.98 }]
-          }}
-          onPress={handleAddExercises}
-        >
-          <XStack alignItems="center" gap="$2">
-            <PlusIcon />
-            <Text
-              color={selected.length > 0 ? "$1" : Color(getVariableValue(getTokens().color["$1"])).alpha(0.4).toString()}
-              fontFamily="$heading"
-              fontSize="$5"
-              fontWeight="500"
-            >
-              Füge Übungen hinzu
-            </Text>
-          </XStack>
-        </Button>
-      </YStack>
+     <BottomActionButton 
+      text="Füge Übungen hinzu"
+      icon={<PlusIcon/>}
+      onPress={handleAddExercises}
+      disabled={selected.length <= 0} />
     </View>
   );
 }

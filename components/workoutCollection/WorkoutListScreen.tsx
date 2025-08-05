@@ -1,7 +1,6 @@
 import { WorkoutDetails } from '@/supabase/queries';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { StatusBar } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { ClipPath, Defs, G, Path, Rect } from 'react-native-svg';
 import {
@@ -9,10 +8,12 @@ import {
   Input,
   ScrollView,
   Text,
+  useTheme,
   View,
   XStack,
   YStack
 } from 'tamagui';
+import BottomActionButton from '../buttons/BottomActionButton';
 import WorkoutCard from './WorkoutCard';
 
 const SearchIcon = () => (
@@ -117,8 +118,10 @@ type WorkoutListScreenProps = {
 export default function WorkoutListScreen({ workouts = [] }: WorkoutListScreenProps) {
   const [searchText, setSearchText] = useState('');
   const [activeTab, setActiveTab] = useState('workouts');
+  
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const theme = useTheme();
 
   // Filter workouts based on search text
   const filteredWorkouts = workouts.filter(workout =>
@@ -136,7 +139,6 @@ export default function WorkoutListScreen({ workouts = [] }: WorkoutListScreenPr
 
   return (
     <View flex={1} backgroundColor="black" paddingTop={insets.top}>
-      <StatusBar barStyle="light-content" backgroundColor="black" />
       <XStack
         justifyContent="center"
         alignItems="center"
@@ -237,40 +239,19 @@ export default function WorkoutListScreen({ workouts = [] }: WorkoutListScreenPr
             </YStack>
           )}
         </ScrollView>
-        <YStack
+        {/* <YStack
           position="absolute"
           bottom={insets.bottom + 10}
           left="$4"
           right="$4"
-        >
-          <Button
-            backgroundColor="#62EFFF"
-            borderRadius="$4"
-            height="$5"
-            width="100%"
-            alignItems="center"
-            justifyContent="center"
-            borderWidth={0}
-            pressStyle={{
-              backgroundColor: "rgba(98, 239, 255, 0.8)",
-              transform: [{ scale: 0.98 }]
-            }}
-            onPress={handleCreateWorkout}
-          >
-            <XStack alignItems="center" gap="$2">
-              <PlusIcon />
-              <Text
-                color="$1"
-                fontFamily="$heading"
-                fontSize="$5"
-                fontWeight="500"
-              >
-                Erstelle neues Workout
-              </Text>
-            </XStack>
-          </Button>
+        > */}
+          <BottomActionButton 
+          text="Erstelle neues Workout" 
+          onPress={handleCreateWorkout}
+          icon={<PlusIcon/>}
+          />
         </YStack>
-      </YStack>
+      {/* </YStack> */}
     </View>
   );
 }
