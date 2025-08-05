@@ -1,15 +1,18 @@
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { BottomTabBarButtonProps } from '@react-navigation/bottom-tabs';
 import Color from 'color';
+import { LinearGradient } from 'expo-linear-gradient';
 import { Tabs } from "expo-router";
-import { Pressable, StyleProp, ViewStyle } from 'react-native';
+import React from 'react';
+import { StyleProp, useWindowDimensions, ViewStyle } from 'react-native';
 import { getVariableValue, useTheme, View } from "tamagui";
 
 export default function TabLayout() {
     const theme = useTheme();
+    const {width: windowWidth} = useWindowDimensions();
 
     const tabBarButtonColorFocused = getVariableValue(theme.color1);
     const tabBarBackGroundColor = theme.color12?.val;
+     const tabBarHeight = 100;
 
     const tabBarItemStyle: StyleProp<ViewStyle> = {
         justifyContent: "center",
@@ -17,19 +20,11 @@ export default function TabLayout() {
         padding: 5,
     };
 
-    const tabBarButton = (props: BottomTabBarButtonProps) => {
-        console.log(`props: ${JSON.stringify(props.href, null, 2)}`)
-
-        return (
-            <Pressable onPress={props.onPress}>
-                {props.children}
-            </Pressable>);
-    }
-
     const tabBarIcon = (props: { focused: boolean, color: string, size: number }, iconName: string) => {
-        const iconSize = props.size+5;
+        const iconSize = props.size + 5;
 
         return (
+
             <View
                 width={iconSize + 10}
                 height={iconSize + 10}
@@ -45,15 +40,48 @@ export default function TabLayout() {
         );
     }
 
+    const tabBarBackground = () => {
+
+        console.log(`tabBarHeight: ${tabBarHeight}`);
+
+        return (
+            <View flex={1} backgroundColor="black">
+                <LinearGradient
+                    style={{
+                        width: windowWidth,
+                        height: 5,
+                        position: "absolute",
+                        zIndex: 2,
+                        flex:1
+                    }}
+                    start={{
+                        x: 0.5, y: 0
+                    }}
+                    end={{
+                        x: 0.5, y: 1
+                    }}
+                    colors={[Color(theme.color1?.val).alpha(0.2).toString(), theme.color1?.val,"black"]}>
+                </LinearGradient>
+            </View>
+        );
+    }
+
     return (
+
         <Tabs screenOptions={{
             headerShown: false,
+            // tabBarStyle: {
+            //     backgroundColor: tabBarBackGroundColor,
+            //     borderColor: Color(theme.color3?.val).alpha(0.4).toString(),
+            //     borderTopWidth: 1,
+            // },
             tabBarStyle: {
-                backgroundColor: tabBarBackGroundColor,
-                borderColor: Color(theme.color3?.val).alpha(0.4).toString(),
-                borderTopWidth: 1,
+                borderTopWidth: 0,
+                height: tabBarHeight,
+                paddingTop: 5
             },
             tabBarActiveTintColor: tabBarButtonColorFocused,
+            tabBarBackground: () => tabBarBackground()
         }}>
             <Tabs.Screen name="creation"
                 options={{
