@@ -35,7 +35,7 @@ export default function BottomActionButton(props: BottomActionButtonProps) {
             }}
             onPress={props.onPress}
             position="absolute"
-            bottom={insets.bottom}
+            bottom={30}
             disabled={props.disabled}
         >
             <XStack alignItems="center" gap="$2">

@@ -4,10 +4,12 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Tabs } from "expo-router";
 import React from 'react';
 import { StyleProp, useWindowDimensions, ViewStyle } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { getVariableValue, useTheme, View } from "tamagui";
 
 export default function TabLayout() {
     const theme = useTheme();
+    const insets = useSafeAreaInsets();
     const {width: windowWidth} = useWindowDimensions();
 
     const tabBarButtonColorFocused = getVariableValue(theme.color1);
@@ -67,21 +69,19 @@ export default function TabLayout() {
     }
 
     return (
-
         <Tabs screenOptions={{
             headerShown: false,
-            // tabBarStyle: {
-            //     backgroundColor: tabBarBackGroundColor,
-            //     borderColor: Color(theme.color3?.val).alpha(0.4).toString(),
-            //     borderTopWidth: 1,
-            // },
             tabBarStyle: {
                 borderTopWidth: 0,
                 height: tabBarHeight,
                 paddingTop: 5
             },
             tabBarActiveTintColor: tabBarButtonColorFocused,
-            tabBarBackground: () => tabBarBackground()
+            tabBarBackground: () => tabBarBackground(),
+            sceneStyle: {
+                paddingTop: insets.top,
+                backgroundColor: "black"
+            }
         }}>
             <Tabs.Screen name="creation"
                 options={{

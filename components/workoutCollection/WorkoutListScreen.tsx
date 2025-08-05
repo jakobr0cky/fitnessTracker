@@ -1,7 +1,6 @@
 import { WorkoutDetails } from '@/supabase/queries';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { ClipPath, Defs, G, Path, Rect } from 'react-native-svg';
 import {
   Button,
@@ -120,7 +119,6 @@ export default function WorkoutListScreen({ workouts = [] }: WorkoutListScreenPr
   const [activeTab, setActiveTab] = useState('workouts');
   
   const router = useRouter();
-  const insets = useSafeAreaInsets();
   const theme = useTheme();
 
   // Filter workouts based on search text
@@ -138,7 +136,7 @@ export default function WorkoutListScreen({ workouts = [] }: WorkoutListScreenPr
   };
 
   return (
-    <View flex={1} backgroundColor="black" paddingTop={insets.top}>
+    <View flex={1} backgroundColor="black">
       <XStack
         justifyContent="center"
         alignItems="center"
@@ -245,13 +243,14 @@ export default function WorkoutListScreen({ workouts = [] }: WorkoutListScreenPr
           left="$4"
           right="$4"
         > */}
-          <BottomActionButton 
+          
+        </YStack>
+      {/* </YStack> */}
+      <BottomActionButton 
           text="Erstelle neues Workout" 
           onPress={handleCreateWorkout}
           icon={<PlusIcon/>}
           />
-        </YStack>
-      {/* </YStack> */}
     </View>
   );
 }

@@ -82,8 +82,8 @@ export default function WorkoutCardList(props: { workouts: WorkoutSessionInfo[],
                             <XStack borderRadius="$2" padding="$2">
                                 {isWorkoutDone(workoutSession) ?
                                     <XStack gap="$3">
-                                        <Text color="rgba(255,255,255,0.7)" fontSize="$4">{startTimeEndTimePretty(new Date(workoutSession.started_at),new Date(workoutSession.endet_at))}</Text>
-                                        <Text color="rgba(255,255,255,0.7)" fontSize="$4">{getDurationOfWorkout(new Date(workoutSession.started_at),new Date(workoutSession.endet_at))}</Text>
+                                        <Text color="rgba(255,255,255,0.7)" fontSize="$4">{startTimeEndTimePretty(new Date(workoutSession.started_at),new Date(workoutSession.ended_at))}</Text>
+                                        <Text color="rgba(255,255,255,0.7)" fontSize="$4">{getDurationOfWorkout(new Date(workoutSession.started_at),new Date(workoutSession.ended_at))}</Text>
                                     </XStack>
                                     : <Text color="rgba(255,255,255,0.7)" fontSize="$4">Geplant am {formateDate(new Date(workoutSession.scheduled_at))}</Text>
                                 }

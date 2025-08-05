@@ -5,9 +5,10 @@ import { queryAllExercises } from "@/supabase/queries";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
 import { useEffect } from "react";
+import { View } from "tamagui";
 
 export default function ExerciseSelectionScreen() {
-    
+
     const { data: allAvailableExercises } = useQuery({
         queryKey: ["allExercises"],
         queryFn: queryAllExercises
@@ -30,6 +31,8 @@ export default function ExerciseSelectionScreen() {
     }
 
     return (
-        <ExerciseList onExercisesSelected={onAddExercises} exercises={allAvailableExercises}></ExerciseList>
+        <View flex={1} backgroundColor="black" paddingTop={10}>
+            <ExerciseList onExercisesSelected={onAddExercises} exercises={allAvailableExercises}></ExerciseList>
+        </View>
     );
 }

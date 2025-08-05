@@ -10,7 +10,7 @@ import { config } from "@/tamagui.config";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import React, { useCallback, useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { YStack } from "tamagui";
+import { View, YStack } from "tamagui";
 
 export default function ScheduleScreen() {
     const lighAccent = config.themes.light_accent;
@@ -24,18 +24,18 @@ export default function ScheduleScreen() {
     const scheduledWorkouts = useScheduledWorkoutStore((state) => state.scheduledWorkouts);
     const addScheduledWorkout = useScheduledWorkoutStore((state) => state.addScheduledWorkout);
     const getWorkoutsFromYearInMonth = useScheduledWorkoutStore((state) => state.getWorkoutsFromYearInMonth);
-    
+
     const { mutateAsync: insertWorkoutSessionMutationAsync, isSuccess } = useMutation({
         mutationKey: ["insertWorkoutSessionMutationAsync"],
         mutationFn: insertWorkoutSession
     })
-    
+
     const { data: allWorkoutsFromSelectedDay } = useQuery({
         queryKey: ["queryWorkoutsFromDate", selectedDay, isSuccess],
         queryFn: async () => queryWorkoutsFromDate(new Date(selectedDay)),
         enabled: !!selectedDay
     })
-    
+
     const { data: allWorkoutsFromCurrentMonth } = useQuery({
         queryKey: ["queryWorkoutsFromCurrentMonth", currentDate, isSuccess],
         queryFn: async () => queryWorkoutsFromCurrentMonth(new Date(currentDate)),
@@ -56,22 +56,22 @@ export default function ScheduleScreen() {
         const scheduledWorkout: ScheduledWorkout = { workout: workout, status: "toBeDone", scheduledTime: scheduledTime };
         try {
             const res = await insertWorkoutSessionMutationAsync({ workoutId: workout.id, scheduled_at: scheduledTime });
-            console.log(`res: ${JSON.stringify(res,null,2)}`);
-            
-            const workoutExercises = await supabase.from("workout_exercises").select("id").eq("workout_id",workout.id);
+            console.log(`res: ${JSON.stringify(res, null, 2)}`);
 
-            if(!workoutExercises.data){
+            const workoutExercises = await supabase.from("workout_exercises").select("id").eq("workout_id", workout.id);
+
+            if (!workoutExercises.data) {
                 console.log("es gibt keine workoutExercises");
                 return;
             }
 
-            for(let i = 0; i < workoutExercises.data.length; i++){
+            for (let i = 0; i < workoutExercises.data.length; i++) {
                 const sessionExerciseRes = await supabase.from("session_exercises").insert({
                     workout_session_id: res.id,
-                    workout_exercise_id: workoutExercises.data[i].id 
+                    workout_exercise_id: workoutExercises.data[i].id
                 }).select();
 
-                console.log(`successfully inserted session_exerice: ${JSON.stringify(sessionExerciseRes,null,2)}`);
+                console.log(`successfully inserted session_exerice: ${JSON.stringify(sessionExerciseRes, null, 2)}`);
             }
         }
         catch (error) {
@@ -122,7 +122,8 @@ export default function ScheduleScreen() {
     }, [selectedDay, allWorkoutsFromCurrentMonth]);
 
     return (
-        <YStack flex={1} backgroundColor="#000" paddingTop={insets.top}>
+        <View flex={1}>
+            {/* <YStack flex={1} backgroundColor="#000" paddingTop={insets.top}> */}
             {/* Calendar Section */}
             <YStack paddingHorizontal="$3" marginBottom="$3">
                 <CustomCalendar
@@ -136,23 +137,22 @@ export default function ScheduleScreen() {
 
             {/* Workout List Section */}
             <YStack flex={1} paddingHorizontal="$3">
-                <WorkoutCardList 
-                    selectedDay={selectedDay} 
-                    updateWorkouts={() => { }} 
+                <WorkoutCardList
+                    selectedDay={selectedDay}
+                    updateWorkouts={() => { }}
                     workouts={allWorkoutsFromSelectedDay ?? []}
                 />
             </YStack>
-            
-            {/* Expandable Add Button */}
+
             <YStack paddingBottom={insets.bottom}>
-                <ExpandableButton 
-                    onModalListItemPressed={onModalListItemPressed} 
-                    showButtonGroup={showButtonGroup} 
-                    setShowButtonGroup={setShowButtonGroup} 
-                    showWorkoutListModal={showWorkoutListModal} 
+                <ExpandableButton
+                    onModalListItemPressed={onModalListItemPressed}
+                    showButtonGroup={showButtonGroup}
+                    setShowButtonGroup={setShowButtonGroup}
+                    showWorkoutListModal={showWorkoutListModal}
                     setShowWorkoutListModal={setShowWorkoutListModal}
                 />
             </YStack>
-        </YStack>
+        </View>
     );
 }

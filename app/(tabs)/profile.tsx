@@ -77,7 +77,7 @@ export default function Profile() {
     };
 
     return (
-        <YStack flex={1} backgroundColor="#000" paddingTop={insets.top}>
+        <YStack flex={1} backgroundColor="#000" paddingTop={20}>
             {/* Header */}
             <YStack 
                 height={36} 

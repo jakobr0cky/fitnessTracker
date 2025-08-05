@@ -104,7 +104,7 @@ export default function WorkoutCreation({
 
   const handleCreateWorkout = async () => {
     let isValid = validateInput();
-    if(!isValid) return;
+    if (!isValid) return;
 
     try {
       const modifiedRowWorkout = await upsertWorkoutMutationAsync({ workoutName, userId: session!.user.id });
@@ -122,7 +122,7 @@ export default function WorkoutCreation({
       console.log(`caught error while upserting Workout and inserting WorkoutExercise: ${JSON.stringify(error)}`);
       return;
     }
-    finally{
+    finally {
       console.log("finished");
     }
 
@@ -142,12 +142,12 @@ export default function WorkoutCreation({
       return false;
     }
 
-    if(Object.entries(exerciseConfigs).length < selectedExercises.length){
+    if (Object.entries(exerciseConfigs).length < selectedExercises.length) {
       return false;
     }
 
     for (let exerciseConfig of Object.values(exerciseConfigs)) {
-      if (!exerciseConfig.sets || !exerciseConfig.restTime|| exerciseConfig.sets <= 0 || exerciseConfig.restTime <= 0) {
+      if (!exerciseConfig.sets || !exerciseConfig.restTime || exerciseConfig.sets <= 0 || exerciseConfig.restTime <= 0) {
         return false;
       }
     }
@@ -159,7 +159,7 @@ export default function WorkoutCreation({
     selectedExercises.some(ex => exerciseConfigs[ex.id]?.sets > 0);
 
   return (
-    <View flex={1} backgroundColor="black" paddingTop={insets.top}>
+    <View flex={1} backgroundColor="black">
       <StatusBar barStyle="light-content" backgroundColor="#000" />
 
       <XStack
@@ -177,19 +177,16 @@ export default function WorkoutCreation({
         >
           <BackIcon />
         </Button>
-
         <Text
           color="$1"
           fontFamily="$heading"
           fontSize="$4"
-          fontWeight="400"
           flex={1}
-          textAlign="center"
+          textAlign="right"
         >
           Erstelle dein Workout
         </Text>
-
-        <View width={40} />
+        <View width="$4" />
       </XStack>
 
       <YStack flex={1} marginTop={15} paddingHorizontal="$6" gap="$6">
@@ -256,12 +253,12 @@ export default function WorkoutCreation({
           </YStack>
         </ScrollView>
       </YStack>
-      
+
       <BottomActionButton
-      text="Erstelle Workout"
-      onPress={handleCreateWorkout}
-      icon={<PlusIcon/>}
-      disabled={!isValid} />
+        text="Erstelle Workout"
+        onPress={handleCreateWorkout}
+        icon={<PlusIcon />}
+        disabled={!isValid} />
     </View>
   );
 }

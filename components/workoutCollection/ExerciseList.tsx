@@ -108,7 +108,7 @@ export default function ExerciseList({
   };
 
   return (
-    <View flex={1} backgroundColor="black" paddingTop={insets.top}>
+    <View flex={1} backgroundColor="black">
       <XStack
         alignItems="center"
         paddingHorizontal="$4"
@@ -129,11 +129,11 @@ export default function ExerciseList({
           fontFamily="$heading"
           fontSize="$4"
           flex={1}
-          textAlign="center"
+          textAlign="right"
         >
           Wähle deine Übungen
         </Text>
-        <View width={40} />
+        <View width="$4" />
       </XStack>
 
       <View paddingHorizontal="$4" marginBottom="$4">
