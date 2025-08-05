@@ -87,10 +87,10 @@ export default function WorkoutCard(props: WorkoutCardProps) {
                         <XStack justifyContent="space-between" alignItems="flex-start">
                             <YStack flex={1} marginRight="$4">
                                 <Text color="#A1A1AA" fontSize="$3" marginBottom="$1">
-                                    Dauer (geschätzt)
+                                    Dauer
                                 </Text>
                                 <Text color="white" fontSize="$3">
-                                    {Math.round(estimatedDuration / 60)} minutes
+                                    ~{Math.round(estimatedDuration / 60)} minutes
                                 </Text>
                             </YStack>
 
