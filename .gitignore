@@ -39,9 +39,9 @@ yarn-error.*
 app-example
 
 important.txt
+TODO.txt
+my-release-key.keystore
 
 .env
 
-my-release-key.keystore
 
-TODO.txt
