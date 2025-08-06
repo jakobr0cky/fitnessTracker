@@ -19,9 +19,9 @@ export default function RootLayout() {
                         <Stack.Screen name="runningWorkoutSession/[workoutSessionId]" options={{ headerShown: false }} />
                     </Stack.Protected>
                     <Stack.Protected guard={!isUserLoggedIn()}>
-                        <Stack.Screen name="signInSignUp" options={{ headerShown: false}}/>
-                        <Stack.Screen name="signIn" options={{ headerShown: false, animation: "slide_from_right"}}/>
-                        <Stack.Screen name="signUp" options={{ headerShown: false, animation: "slide_from_right"}}/>
+                        <Stack.Screen name="SignInSignUp" options={{ headerShown: false}}/>
+                        <Stack.Screen name="SignIn" options={{ headerShown: false, animation: "slide_from_right"}}/>
+                        <Stack.Screen name="SignUp" options={{ headerShown: false, animation: "slide_from_right"}}/>
                     </Stack.Protected>
                 </Stack>
             </QueryClientProvider>
