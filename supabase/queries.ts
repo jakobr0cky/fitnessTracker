@@ -78,11 +78,18 @@ export const queryWorkoutsWithExerciseDetails = async (): Promise<WorkoutDetails
     return res.data;
 }
 
-// export const queryWorkoutsWithExerciseDetails = queryOptions({
-//     queryKey
-// })
+export type ExerciseData = {
+    executed_at: string,
+    total_volume: number,
+}
 
+export const getExerciseDataByName = async (exerciseName: string) : Promise<ExerciseData[]> => {
+    const res = await supabase.rpc("get_exercise_data_by_name",{exercise_name: exerciseName});
 
+    if(res.error) throw res.error;
+
+    return res.data;
+}
 
 export type ExerciseInfo = {
     session_exercise_id: string,

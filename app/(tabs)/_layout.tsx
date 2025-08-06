@@ -10,11 +10,11 @@ import { getVariableValue, useTheme, View } from "tamagui";
 export default function TabLayout() {
     const theme = useTheme();
     const insets = useSafeAreaInsets();
-    const {width: windowWidth} = useWindowDimensions();
+    const { width: windowWidth } = useWindowDimensions();
 
     const tabBarButtonColorFocused = getVariableValue(theme.color1);
     const tabBarBackGroundColor = theme.color12?.val;
-     const tabBarHeight = 100;
+    const tabBarHeight = 100;
 
     const tabBarItemStyle: StyleProp<ViewStyle> = {
         justifyContent: "center",
@@ -54,7 +54,7 @@ export default function TabLayout() {
                         height: 5,
                         position: "absolute",
                         zIndex: 2,
-                        flex:1
+                        flex: 1
                     }}
                     start={{
                         x: 0.5, y: 0
@@ -62,7 +62,7 @@ export default function TabLayout() {
                     end={{
                         x: 0.5, y: 1
                     }}
-                    colors={[Color(theme.color1?.val).alpha(0.2).toString(), theme.color1?.val,"black"]}>
+                    colors={[Color(theme.color1?.val).alpha(0.2).toString(), theme.color1?.val, "black"]}>
                 </LinearGradient>
             </View>
         );
@@ -98,6 +98,14 @@ export default function TabLayout() {
                     tabBarHideOnKeyboard: true,
                     tabBarItemStyle,
                     tabBarIcon: (props) => tabBarIcon(props, "calendar-month-outline"),
+                }} />
+            <Tabs.Screen name="Statistic"
+                options={{
+                    title: "Statistic Tab",
+                    tabBarShowLabel: false,
+                    tabBarHideOnKeyboard: true,
+                    tabBarItemStyle,
+                    tabBarIcon: (props) => tabBarIcon(props, "chart-line"),
                 }} />
             <Tabs.Screen name="profile"
                 options={{
