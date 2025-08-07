@@ -1,33 +1,56 @@
 import { getExerciseDataByNameQueryOptions } from '@/supabase/queryOptions';
 import { useQuery } from '@tanstack/react-query';
-import React from 'react';
 import { Dimensions } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
-import { Text, View } from "tamagui";
+import { AbstractChartConfig } from 'react-native-chart-kit/dist/AbstractChart';
+import { ScrollView, Text, useTheme, View } from "tamagui";
 
-export default function ExerciseChart() {
-    const { data: exercisesData } = useQuery(getExerciseDataByNameQueryOptions("Bankdrücken"));
+export type ExerciseChartProps = {
+    exerciseName: string,
+    width: number,
+    height: number
+}
+
+export default function ExerciseChart(props: ExerciseChartProps) {
+    const { data: exercisesData } = useQuery(getExerciseDataByNameQueryOptions(props.exerciseName));
     const screenWidth = Dimensions.get('window').width;
-    
-    const DATA = Array.from({ length: 7 }, (_, i) => 40 + 30 * Math.random());
+    const theme = useTheme();
 
-    if(!exercisesData) return <Text>Loading Exercise Data</Text>;
+    if (!exercisesData) return <Text>Loading Exercise Data</Text>;
 
-    console.log(exercisesData)
-    
+    console.log(`${props.exerciseName} exerciseData: ${JSON.stringify(exercisesData, null, 2)}`)
+
+    if (props.exerciseName === "") {
+        return (
+            <Text marginTop={20} alignSelf="center" width={props.width} color="$1">Wähle eine Übung um die Statistiken dieser Übung zu sehen</Text>
+        );
+    }
+
+    if (exercisesData.length <= 0) {
+        return (
+            <Text marginTop={20} alignSelf="center" width={props.width} color="$1">Du hast noch keine Statistiken zu dieser Übung!</Text>
+        );
+    }
+
+    const getLabels = () => {
+        const onlyEveryThird = exercisesData.filter((item,i) => i % 3 === 0);
+
+        return exercisesData.map((exerciseData) =>
+            exerciseData.executed_at.split("-").filter((value, index) => index !== 0).join("-"));
+    }
+
     const data = {
-        labels: ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"],
+        labels: getLabels(),
         datasets: [{
-            //data: DATA,
             data: exercisesData.map((data) => data.total_volume),
-            color: (opacity = 1) => "red",
-            strokeWidth: 1
+            color: (opacity = 1) => theme.color1?.val,
+            strokeWidth: 1,
         }]
     };
 
-    const chartConfig = {
+    const chartConfig: AbstractChartConfig | undefined = {
         backgroundColor: "transparent",
-        backgroundGradientFrom: "transparent", 
+        backgroundGradientFrom: "transparent",
         backgroundGradientTo: "transparent",
         decimalPlaces: 0,
         color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
@@ -36,25 +59,29 @@ export default function ExerciseChart() {
             borderRadius: 16
         },
         propsForDots: {
-            r: "4",
+            r: "8",
             strokeWidth: "2",
             stroke: "#7e6033ff"
-        }
+        },
+        barPercentage: 0.12,
+
+
     };
 
     return (
-        <View style={{ height: 300, paddingHorizontal: 16 }}>
-            <LineChart
-                data={data}
-                width={screenWidth - 32}
-                height={250}
-                chartConfig={chartConfig}
-                bezier
-                style={{
-                    marginVertical: 8,
-                    borderRadius: 16
-                }}
-            />
+        <View style={{ height: props.height, width: props.width, paddingHorizontal: 5 }}>
+            <ScrollView horizontal>
+                <LineChart
+                    data={data}
+                    width={400}
+                    height={props.height}
+                    chartConfig={chartConfig}
+                    onDataPointClick={({ value, dataset, index }) => console.log(`onData:
+                     value: ${JSON.stringify(value, null, 2)}
+                     dataset: ${JSON.stringify(dataset, null, 2)}`)}
+                    yAxisInterval={0.5}
+                />
+            </ScrollView>
         </View>
     );
-}
+} 

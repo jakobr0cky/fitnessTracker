@@ -1,7 +1,7 @@
 import { Exercise, Workout } from '@/models/trainingModels';
 import { supabase } from './supabase';
 
-export const queryAllExercises = async (): Promise<Exercise[]> => {
+export const getAllExercises = async (): Promise<Exercise[]> => {
     const res = await supabase.from("exercises").select("id,created_at,name");
 
     if (res.error) {

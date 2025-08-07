@@ -22,7 +22,7 @@ export default function SignInSignUp() {
                     backgroundColor={Color("hsla(186, 70%, 80%, 1)").alpha(0.8).string()}
                     width={350}
                     height={55}
-                    onPress={() => router.navigate("/signIn")}>
+                    onPress={() => router.navigate("/SignIn")}>
                     <Text color="$textPrimary" fontWeight="bold" fontSize="$7">Anmelden</Text>
                 </Button>
                 <Button
@@ -31,7 +31,7 @@ export default function SignInSignUp() {
                     backgroundColor={Color("hsla(186, 70%, 60%, 1)").alpha(0.8).string()}
                     width={350}
                     height={55}
-                    onPress={() => router.navigate("/signUp")}>
+                    onPress={() => router.navigate("/SignUp")}>
                     <Text color="$textPrimary" fontWeight="bold" fontSize="$7">Registrieren</Text>
                 </Button>
             </YStack>
