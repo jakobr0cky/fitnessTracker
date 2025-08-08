@@ -3,6 +3,7 @@
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
 ![Gif Demo der App](./showcase/createWorkout.gif)
+<img src="./showcase/createWorkout.gif" alt="App-Demo" width="400">
 ![Mp4 Demo der App](./showcase/createWorkout.mp4)
 
 ## Get started
