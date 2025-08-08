@@ -7,13 +7,9 @@
 ##  Schnelle Vorschau
 
 <p align="center">
-  <img src="./showcase/createWorkout.gif" alt="App – Workout erstellen" width="400">
-</p>
-<p align="center">
-  <img src="./showcase/runWorkout.gif" alt="App – Workout dem Kalender hinzufügen und starten" width="400">
-</p>
-<p align="center">
-  <img src="./showcase/seeExerciseStats.gif" alt="App – Statistik-Ansicht" width="400">
+  <img src="./showcase/createWorkout.gif" alt="App – Überblick" width="250" style="margin-right: 10px;">
+  <img src="./showcase/runWorkout.gif" alt="App – Workout-Log" width="250" style="margin-right: 10px;">
+  <img src="./showcase/seeExerciseStats.gif" alt="App – Statistik-Ansicht" width="250">
 </p>
 
 > **Bei GitHub werden die Bilder automatisch skaliert**, aber die Verwendung von `<img>` mit einem `width`-Attribut sorgt dafür, dass sie gleichmäßig und passend dargestellt werden – perfekt fürs README.
