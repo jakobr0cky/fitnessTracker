@@ -50,7 +50,7 @@ export default function WorkingSetView(props: WorkingSetViewProps) {
 
     return (
         <XStack
-            key={props.index}
+            key={props.sessionExercise.exercise_name+props.index}
             paddingHorizontal="$4"
             justifyContent="space-between"
             alignItems="center"

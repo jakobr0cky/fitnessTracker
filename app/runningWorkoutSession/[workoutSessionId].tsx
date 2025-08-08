@@ -2,7 +2,7 @@ import WorkingSetView from "@/components/startWorkout/WorkingSetView";
 import { SessionExercise, WorkingSet } from "@/models/trainingModels";
 import { updateWorkoutSession, upsertWorkingSets } from "@/supabase/mutations";
 import { queryWorkoutSessionExercisesInfo } from "@/supabase/queries";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import { Alert, Pressable, ScrollView, Vibration } from "react-native";
@@ -26,6 +26,7 @@ export default function RunningWorkoutSessionScreen() {
     const router = useRouter();
     const insets = useSafeAreaInsets();
     const theme = useTheme();
+    const queryClient = useQueryClient();
     const { workoutSessionId, workoutName } = useLocalSearchParams();
 
     const { data: queryWorkoutSessionExercisesInfoData } = useQuery({
@@ -144,7 +145,7 @@ export default function RunningWorkoutSessionScreen() {
         const isValid = validateInput();
         let copiedExerciseData = exercisesData.map((item) => item);
 
-        let continueAltoughWorkoutNotCompleted;
+        let continueAltoughWorkoutNotCompleted = true;
         if (!isValid) {
             continueAltoughWorkoutNotCompleted = await asyncAlert();
         }
@@ -186,6 +187,8 @@ export default function RunningWorkoutSessionScreen() {
             console.log(`error while upsertWorkingSetsMutationAsync: ${JSON.stringify(error, null, 2)}`);
         }
 
+        queryClient.invalidateQueries({queryKey:["queryWorkoutsFromDate"]})
+        queryClient.invalidateQueries({queryKey:["queryWorkoutsFromCurrentMonth"]})
         router.back();
     }
 
@@ -290,6 +293,7 @@ export default function RunningWorkoutSessionScreen() {
                             </XStack>
 
                             {exercise.working_sets.map((set, setIndex) => <WorkingSetView
+                                key={exercise.exercise_name+setIndex}
                                 sessionExercise={exercise}
                                 set={set}
                                 index={setIndex}
