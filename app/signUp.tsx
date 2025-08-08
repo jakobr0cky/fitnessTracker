@@ -94,6 +94,7 @@ export default function SignUp() {
                     backgroundColor="hsla(240,7%,86%,1)"
                     placeholder="Email" />
                 <Input
+                    secureTextEntry={true}
                     onChangeText={(text) => setPassword(text)}
                     alignSelf="center"
                     marginTop={10}
@@ -110,7 +111,7 @@ export default function SignUp() {
                     height={55}>
                     <Link
                         style={{ borderBottomColor: "hsla(216,91%,43%,1)", borderBottomWidth: 1 }}
-                        href={"/signInSignUp"}>
+                        href={"/SignInSignUp"}>
                         <Text color="hsla(216,91%,43%,1)"> Passwort vergessen</Text>
                     </Link>
                 </XStack>
@@ -144,7 +145,7 @@ export default function SignUp() {
             </YStack>
             <XStack zIndex={3} alignSelf="center" alignItems="center" position="absolute" bottom={20}>
                 <Text color="$3">Noch keinen Account?</Text>
-                <Pressable style={{ marginLeft: 5 }} onPress={() => router.replace("/signIn")}>
+                <Pressable style={{ marginLeft: 5 }} onPress={() => router.replace("/SignIn")}>
                     <Text color="hsla(216,91%,43%,1)" borderBottomColor="hsla(216,91%,43%,1)" borderBottomWidth={1}>Anmelden</Text>
                 </Pressable>
             </XStack>

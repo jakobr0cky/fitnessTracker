@@ -13,7 +13,7 @@ export default function RootLayout() {
     return (
         <TamaguiProvider config={config} defaultTheme="dark">
             <QueryClientProvider client={queryClient}>
-                <Stack initialRouteName={isUserLoggedIn() ? "(tabs)" : "signInSignUp"}>
+                <Stack initialRouteName={isUserLoggedIn() ? "(tabs)" : "SignInSignUp"}>
                     <Stack.Protected guard={isUserLoggedIn()}>
                         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
                         <Stack.Screen name="runningWorkoutSession/[workoutSessionId]" options={{ headerShown: false }} />
