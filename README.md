@@ -7,8 +7,8 @@
 ##  Schnelle Vorschau
 
 <p align="center">
-  <img src="./showcase/createWorkout.gif" alt="App – Überblick" width="250" style="margin-right: 10px;">
-  <img src="./showcase/runWorkout.gif" alt="App – Workout-Log" width="250" style="margin-right: 10px;">
+  <img src="./showcase/createWorkout.gif" alt="App – Überblick" width="250" style="margin-right: 20px;">
+  <img src="./showcase/runWorkout.gif" alt="App – Workout-Log" width="250" style="margin-right: 20px;">
   <img src="./showcase/seeExerciseStats.gif" alt="App – Statistik-Ansicht" width="250">
 </p>
 
