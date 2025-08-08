@@ -2,9 +2,9 @@ import { Exercise } from '@/models/trainingModels';
 import { useSessionStore } from '@/stores/sessionStore';
 import { insertWorkoutExercise, upsertWorkout } from '@/supabase/mutations';
 import { queryAllWorkoutsFromCurrentUser } from '@/supabase/queries';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { StatusBar } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { ClipPath, Defs, G, Path, Rect } from 'react-native-svg';
@@ -64,9 +64,10 @@ export default function WorkoutCreation({
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const theme = useTheme();
+  const queryClient = useQueryClient();
 
   if (session === null) {
-    router.navigate("/signInSignUp");
+    router.navigate("/SignInSignUp");
   }
 
   const { data: allWorkoutsFromUser } = useQuery({
@@ -125,6 +126,9 @@ export default function WorkoutCreation({
     finally {
       console.log("finished");
     }
+
+    queryClient.invalidateQueries({ queryKey: ["queryWorkoutsFromDate"] })
+    queryClient.invalidateQueries({ queryKey: ["queryWorkoutsFromCurrentMonth"] })
 
     router.navigate("/(tabs)/creation/creationTab");
   };
