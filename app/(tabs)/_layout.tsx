@@ -2,7 +2,6 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Color from 'color';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Tabs } from "expo-router";
-import React from 'react';
 import { StyleProp, useWindowDimensions, ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { getVariableValue, useTheme, View } from "tamagui";
@@ -43,9 +42,6 @@ export default function TabLayout() {
     }
 
     const tabBarBackground = () => {
-
-        console.log(`tabBarHeight: ${tabBarHeight}`);
-
         return (
             <View flex={1} backgroundColor="black">
                 <LinearGradient

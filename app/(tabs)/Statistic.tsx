@@ -32,8 +32,8 @@ export default function StatisticTab() {
 
     return (
         <PaperProvider>
-            <View flex={1} backgroundColor="black">
-                <YStack flex={1} gap="$2" marginTop={50}>
+            <View flex={1} backgroundColor="black" paddingTop={80}>
+                <YStack flex={1} gap="$2">
                     <TouchableOpacity style={{ alignSelf: "center" }} onPress={() => setShowModal(!showModal)}>
                         <Text color="$1" >{selectedExercise === "" ? "<Übung wählen>" : selectedExercise}</Text>
                     </TouchableOpacity>

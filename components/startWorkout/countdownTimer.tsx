@@ -1,4 +1,3 @@
-import React from "react";
 import { Vibration } from "react-native";
 import { CountdownCircleTimer, TimeProps } from 'react-native-countdown-circle-timer';
 import { Text } from "tamagui";
@@ -17,8 +16,11 @@ export default function CountDownTimer(props: { timerRunning: boolean, restTime:
     }
 
     const vibrate = () => {
+        console.log("onComplete");
+
         let i = 0;
         const rounds = 3;
+        Vibration.vibrate(1000);
         const id = setInterval(() => {
             Vibration.vibrate(800); i++;
             if (i >= rounds) clearInterval(id);

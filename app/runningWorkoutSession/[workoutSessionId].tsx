@@ -5,7 +5,7 @@ import { queryWorkoutSessionExercisesInfo } from "@/supabase/queries";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
-import { Alert, Pressable, ScrollView } from "react-native";
+import { Alert, Pressable, ScrollView, Vibration } from "react-native";
 import { CountdownCircleTimer, TimeProps } from 'react-native-countdown-circle-timer';
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Svg, { Path } from "react-native-svg";
@@ -289,12 +289,12 @@ export default function RunningWorkoutSessionScreen() {
                                 </XStack>
                             </XStack>
 
-                            {exercise.working_sets.map((set, setIndex) => <WorkingSetView 
-                            sessionExercise={exercise}
-                            set={set}
-                            index={setIndex}
-                            updateExerciseData={updateExerciseData}
-                            startTimer={startTimer}
+                            {exercise.working_sets.map((set, setIndex) => <WorkingSetView
+                                sessionExercise={exercise}
+                                set={set}
+                                index={setIndex}
+                                updateExerciseData={updateExerciseData}
+                                startTimer={startTimer}
                             />)}
                         </YStack>
                     ))}
@@ -313,11 +313,17 @@ export default function RunningWorkoutSessionScreen() {
                     isPlaying={timerRunning}
                     duration={restTime}
                     colors={['#D3D3D3', '#D3D3D3', '#D3D3D3', '#D3D3D3']}
-                    colorsTime={[restTime, restTime * 0.5, restTime * 0.25, 0]}
+                    colorsTime={[restTime, restTime * 0.5, restTime * 0.25]}
                     size={124}
                     strokeWidth={2}
                     trailColor="#3E3E3E"
                     onComplete={() => {
+                        let i = 0;
+                        const rounds = 3;
+                        const id = setInterval(() => {
+                            Vibration.vibrate(1000); i++;
+                            if (i >= rounds) clearInterval(id);
+                        }, 1300);
                         setTimerRunning(false);
                         return { shouldRepeat: false };
                     }}

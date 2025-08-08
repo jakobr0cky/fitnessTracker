@@ -8,7 +8,7 @@ import { queryWorkoutsFromCurrentMonth, queryWorkoutsFromDate } from "@/supabase
 import { supabase } from "@/supabase/supabase";
 import { config } from "@/tamagui.config";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import React, { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { View, YStack } from "tamagui";
 
@@ -110,7 +110,7 @@ export default function ScheduleScreen() {
 
             let marking = {
                 marked: true,
-                dotColor: allWorkoutsFromCurrentMonth[i].status === "completed" ? "#62EFFF" : "#808080"
+                dotColor: allWorkoutsFromCurrentMonth[i].status === "completed" ? "#4bfa44ff" : "#62EFFF"
             };
 
             if (selectedDayDateString === scheduledTimeDateString) marking = { ...marking, ...selectedMarking };
@@ -123,9 +123,7 @@ export default function ScheduleScreen() {
 
     return (
         <View flex={1}>
-            {/* <YStack flex={1} backgroundColor="#000" paddingTop={insets.top}> */}
-            {/* Calendar Section */}
-            <YStack paddingHorizontal="$3" marginBottom="$3">
+            <YStack paddingHorizontal="$3" marginBottom="$3" paddingTop={40}>
                 <CustomCalendar
                     currentDate={currentDate}
                     setCurrentDate={setCurrentDate}
@@ -135,7 +133,6 @@ export default function ScheduleScreen() {
                 />
             </YStack>
 
-            {/* Workout List Section */}
             <YStack flex={1} paddingHorizontal="$3">
                 <WorkoutCardList
                     selectedDay={selectedDay}

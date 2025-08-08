@@ -68,9 +68,8 @@ export default function CustomCalendar(props: { currentDate: Date, setCurrentDat
         // props.setCurrentDate(newDate);
     };
 
-    return (
-        <YStack gap="$2">
-            {/* Custom Header */}
+    const header = () => {
+        return (
             <XStack
                 justifyContent="center"
                 alignItems="center"
@@ -79,7 +78,6 @@ export default function CustomCalendar(props: { currentDate: Date, setCurrentDat
                 width="100%"
                 position="relative"
             >
-                {/* Previous Month Button */}
                 <YStack position="absolute" left="$4">
                     <Pressable onPress={handlePreviousMonth}>
                         <YStack
@@ -95,16 +93,13 @@ export default function CustomCalendar(props: { currentDate: Date, setCurrentDat
                     </Pressable>
                 </YStack>
 
-                {/* Month and Year - Centered */}
                 <Text
                     color="white"
-                    // fontSize="$6"
                     textAlign="center"
                 >
                     {month} {year}
                 </Text>
 
-                {/* Next Month Button */}
                 <YStack position="absolute" right="$4">
                     <Pressable onPress={handleNextMonth}>
                         <YStack
@@ -120,45 +115,47 @@ export default function CustomCalendar(props: { currentDate: Date, setCurrentDat
                     </Pressable>
                 </YStack>
             </XStack>
+        );
+    }
 
-            {/* Calendar without header */}
-            <Calendar
-                style={{
-                    backgroundColor: "#000",
-                    borderRadius: 12,
-                    paddingHorizontal: 8,
-                    paddingVertical: 8
-                }}
-                theme={{
-                    backgroundColor: "#000",
-                    calendarBackground: "#000",
-                    textSectionTitleColor: "rgba(255,255,255,0.7)",
-                    selectedDayBackgroundColor: "#62EFFF",
-                    selectedDayTextColor: "#000",
-                    todayTextColor: "#62EFFF",
-                    dayTextColor: "#FFFFFF",
-                    textDisabledColor: "rgba(255,255,255,0.3)",
-                    dotColor: "#62EFFF",
-                    selectedDotColor: "#000",
-                    arrowColor: "transparent",
-                    monthTextColor: "transparent",
-                    indicatorColor: "#62EFFF",
-                    textDayFontWeight: "400",
-                    textMonthFontWeight: "500",
-                    textDayHeaderFontWeight: "400",
-                    textDayFontSize: 16,
-                    textMonthFontSize: 16,
-                    textDayHeaderFontSize: 13
-                }}
-                markingType="custom"
-                current={props.currentDate.toISOString().split('T')[0]}
-                onMonthChange={(date) => props.setCurrentDate(new Date(date.timestamp))}
-                markedDates={props.markedDates}
-                onDayPress={(date) => { props.setSelectedDay(date.dateString) }}
-                hideArrows={true}
-                disableMonthChange={false}
-                enableSwipeMonths={true}
-            />
-        </YStack>
+    return (
+        <Calendar
+            style={{
+                backgroundColor: "#000",
+                borderRadius: 12,
+                paddingHorizontal: 8,
+                paddingVertical: 8
+            }}
+            theme={{
+                backgroundColor: "#000",
+                calendarBackground: "#000",
+                textSectionTitleColor: "rgba(255,255,255,0.7)",
+                selectedDayBackgroundColor: "#62EFFF",
+                selectedDayTextColor: "#000",
+                todayTextColor: "#62EFFF",
+                dayTextColor: "#FFFFFF",
+                textDisabledColor: "rgba(255,255,255,0.3)",
+                dotColor: "#62EFFF",
+                selectedDotColor: "#000",
+                arrowColor: "transparent",
+                monthTextColor: "transparent",
+                indicatorColor: "#62EFFF",
+                textDayFontWeight: "400",
+                textMonthFontWeight: "500",
+                textDayHeaderFontWeight: "400",
+                textDayFontSize: 16,
+                textMonthFontSize: 16,
+                textDayHeaderFontSize: 13
+            }}
+            customHeader={() => header()}
+            markingType="custom"
+            current={props.currentDate.toISOString().split('T')[0]}
+            onMonthChange={(date) => props.setCurrentDate(new Date(date.timestamp))}
+            markedDates={props.markedDates}
+            onDayPress={(date) => { props.setSelectedDay(date.dateString) }}
+            hideArrows={true}
+            disableMonthChange={false}
+            enableSwipeMonths={true}
+        />
     );
 }

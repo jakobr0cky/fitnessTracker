@@ -22,7 +22,7 @@ export default function creationTab() {
     );
 
     return (
-        <View flex={1} backgroundColor="black" paddingTop={20}>
+        <View flex={1} backgroundColor="black" paddingTop={40}>
             <WorkoutListScreen workouts={workouts ?? []}></WorkoutListScreen>
         </View>
     );

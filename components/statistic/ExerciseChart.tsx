@@ -68,9 +68,6 @@ export default function ExerciseChart(props: ExerciseChartProps) {
                     width={400}
                     height={props.height}
                     chartConfig={chartConfig}
-                    onDataPointClick={({ value, dataset, index }) => console.log(`onData:
-                     value: ${JSON.stringify(value, null, 2)}
-                     dataset: ${JSON.stringify(dataset, null, 2)}`)}
                     yAxisInterval={0.5}
                 />
             </ScrollView>
