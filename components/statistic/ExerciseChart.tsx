@@ -1,6 +1,5 @@
 import { getExerciseDataByNameQueryOptions } from '@/supabase/queryOptions';
 import { useQuery } from '@tanstack/react-query';
-import { Dimensions } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 import { AbstractChartConfig } from 'react-native-chart-kit/dist/AbstractChart';
 import { ScrollView, Text, useTheme, View } from "tamagui";
@@ -13,13 +12,10 @@ export type ExerciseChartProps = {
 
 export default function ExerciseChart(props: ExerciseChartProps) {
     const { data: exercisesData } = useQuery(getExerciseDataByNameQueryOptions(props.exerciseName));
-    const screenWidth = Dimensions.get('window').width;
     const theme = useTheme();
 
     if (!exercisesData) return <Text>Loading Exercise Data</Text>;
-
-    console.log(`${props.exerciseName} exerciseData: ${JSON.stringify(exercisesData, null, 2)}`)
-
+    
     if (props.exerciseName === "") {
         return (
             <Text marginTop={20} alignSelf="center" width={props.width} color="$1">Wähle eine Übung um die Statistiken dieser Übung zu sehen</Text>
@@ -33,8 +29,6 @@ export default function ExerciseChart(props: ExerciseChartProps) {
     }
 
     const getLabels = () => {
-        const onlyEveryThird = exercisesData.filter((item,i) => i % 3 === 0);
-
         return exercisesData.map((exerciseData) =>
             exerciseData.executed_at.split("-").filter((value, index) => index !== 0).join("-"));
     }
@@ -63,9 +57,7 @@ export default function ExerciseChart(props: ExerciseChartProps) {
             strokeWidth: "2",
             stroke: "#7e6033ff"
         },
-        barPercentage: 0.12,
-
-
+        barPercentage: 0.12
     };
 
     return (

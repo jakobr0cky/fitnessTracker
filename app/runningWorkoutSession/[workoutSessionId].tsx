@@ -1,3 +1,4 @@
+import WorkingSetView from "@/components/startWorkout/WorkingSetView";
 import { SessionExercise, WorkingSet } from "@/models/trainingModels";
 import { updateWorkoutSession, upsertWorkingSets } from "@/supabase/mutations";
 import { queryWorkoutSessionExercisesInfo } from "@/supabase/queries";
@@ -8,17 +9,17 @@ import { Alert, Pressable, ScrollView } from "react-native";
 import { CountdownCircleTimer, TimeProps } from 'react-native-countdown-circle-timer';
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Svg, { Path } from "react-native-svg";
-import { Input, Text, useTheme, XStack, YStack } from "tamagui";
+import { Text, useTheme, XStack, YStack } from "tamagui";
 
-const NO_VALUE: number = 99999;
+export const NO_VALUE: number = 99999;
 
 const BackIcon = (props: { color: string }) => (
-  <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-    <Path
-      d="M7.825 13L13.425 18.6L12 20L4 12L12 4L13.425 5.4L7.825 11H20V13H7.825Z"
-      fill={props.color}
-    />
-  </Svg>
+    <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <Path
+            d="M7.825 13L13.425 18.6L12 20L4 12L12 4L13.425 5.4L7.825 11H20V13H7.825Z"
+            fill={props.color}
+        />
+    </Svg>
 );
 
 export default function RunningWorkoutSessionScreen() {
@@ -32,12 +33,12 @@ export default function RunningWorkoutSessionScreen() {
         queryFn: async () => queryWorkoutSessionExercisesInfo(workoutSessionId as string),
         enabled: !!workoutSessionId
     });
-    
+
     const { mutateAsync: updateWorkoutSessionMutationAsync } = useMutation({
         mutationKey: ["updateWorkoutSessionMutationAsync"],
         mutationFn: updateWorkoutSession
     })
-    
+
     const { mutateAsync: upsertWorkingSetsMutationAsync } = useMutation({
         mutationKey: ["upsertWorkingSetsMutationAsync"],
         mutationFn: upsertWorkingSets
@@ -111,8 +112,8 @@ export default function RunningWorkoutSessionScreen() {
 
     const asyncAlert = async (): Promise<boolean> => {
         return await new Promise((resolve) => Alert.alert(
-            "Bist du wirklich fertig?", 
-            "Du hast nicht alle Übungen ausgefüllt! Möchtest du das Workout trotzdem beenden? Unvollständige Sets werden gelöscht!", 
+            "Bist du wirklich fertig?",
+            "Du hast nicht alle Übungen ausgefüllt! Möchtest du das Workout trotzdem beenden? Unvollständige Sets werden gelöscht!",
             [
                 {
                     text: "Doch nicht fertig",
@@ -143,22 +144,25 @@ export default function RunningWorkoutSessionScreen() {
         const isValid = validateInput();
         let copiedExerciseData = exercisesData.map((item) => item);
 
+        let continueAltoughWorkoutNotCompleted;
         if (!isValid) {
-            const continueAltoughWorkoutNotCompleted = await asyncAlert();
-            if (!continueAltoughWorkoutNotCompleted) return;
-
-            copiedExerciseData = exercisesData.map((exercise) => ({
-                ...exercise,
-                working_sets: exercise.working_sets.filter((set) => set.reps !== NO_VALUE && set.weight !== NO_VALUE)
-            }))
+            continueAltoughWorkoutNotCompleted = await asyncAlert();
         }
 
+        if (!continueAltoughWorkoutNotCompleted) return;
+
+        copiedExerciseData = exercisesData.map((exercise) => ({
+            ...exercise,
+            working_sets: exercise.working_sets.filter((set) => set.reps !== NO_VALUE && set.weight !== NO_VALUE)
+        }))
+
+
         try {
-            await updateWorkoutSessionMutationAsync({ 
-                workout_session_id: workoutSessionId as string, 
-                started_at: startTime.current, 
-                ended_at: new Date(), 
-                status: "completed" 
+            await updateWorkoutSessionMutationAsync({
+                workout_session_id: workoutSessionId as string,
+                started_at: startTime.current,
+                ended_at: new Date(),
+                status: "completed"
             });
         } catch (error) {
             console.log(`error while updateWorkoutSessionMutationAsync: ${JSON.stringify(error, null, 2)}`)
@@ -166,7 +170,7 @@ export default function RunningWorkoutSessionScreen() {
 
         let workingSetsWithExerciseId = [];
         for (let i = 0; i < copiedExerciseData.length; i++) {
-            for (let k = 0; k < copiedExerciseData[i].working_sets.length; k++){
+            for (let k = 0; k < copiedExerciseData[i].working_sets.length; k++) {
                 workingSetsWithExerciseId.push({
                     index: copiedExerciseData[i].working_sets[k].index,
                     reps: copiedExerciseData[i].working_sets[k].reps,
@@ -177,9 +181,9 @@ export default function RunningWorkoutSessionScreen() {
         }
 
         try {
-            await upsertWorkingSetsMutationAsync({workingSets: workingSetsWithExerciseId})
+            await upsertWorkingSetsMutationAsync({ workingSets: workingSetsWithExerciseId })
         } catch (error) {
-            console.log(`error while upsertWorkingSetsMutationAsync: ${JSON.stringify(error,null,2)}`);
+            console.log(`error while upsertWorkingSetsMutationAsync: ${JSON.stringify(error, null, 2)}`);
         }
 
         router.back();
@@ -196,34 +200,31 @@ export default function RunningWorkoutSessionScreen() {
 
     return (
         <YStack flex={1} backgroundColor="#000">
-            {/* Top Bar */}
-            <XStack 
-                width="100%" 
-                paddingHorizontal="$5" 
-                paddingVertical="$4" 
-                justifyContent="space-between" 
+            <XStack
+                width="100%"
+                paddingHorizontal="$5"
+                paddingVertical="$4"
+                justifyContent="space-between"
                 alignItems="center"
                 marginTop={insets.top + 7}
             >
-                {/* Back Button */}
                 <Pressable onPress={() => router.back()}>
-                    <YStack 
-                        width={40} 
-                        height={40} 
-                        borderRadius={20} 
-                        backgroundColor="rgba(91, 91, 91, 0.50)" 
-                        justifyContent="center" 
+                    <YStack
+                        width={40}
+                        height={40}
+                        borderRadius={20}
+                        backgroundColor="rgba(91, 91, 91, 0.50)"
+                        justifyContent="center"
                         alignItems="center"
                     >
-                        <BackIcon color={theme.color1?.val}/>
+                        <BackIcon color={theme.color1?.val} />
                     </YStack>
                 </Pressable>
 
-                {/* Workout Name */}
-                <Text 
-                    color="white" 
-                    fontSize="$6" 
-                    fontWeight="400" 
+                <Text
+                    color="white"
+                    fontSize="$6"
+                    fontWeight="400"
                     textAlign="center"
                     flex={1}
                     marginHorizontal="$3"
@@ -231,14 +232,13 @@ export default function RunningWorkoutSessionScreen() {
                     {workoutName as string}
                 </Text>
 
-                {/* Complete Button */}
                 <Pressable onPress={onEndWorkout}>
-                    <YStack 
-                        width={40} 
-                        height={40} 
-                        borderRadius={20} 
-                        backgroundColor="rgba(91, 91, 91, 0.50)" 
-                        justifyContent="center" 
+                    <YStack
+                        width={40}
+                        height={40}
+                        borderRadius={20}
+                        backgroundColor="rgba(91, 91, 91, 0.50)"
+                        justifyContent="center"
                         alignItems="center"
                     >
                         <Text color="#62EFFF" fontSize="$6">✓</Text>
@@ -246,23 +246,20 @@ export default function RunningWorkoutSessionScreen() {
                 </Pressable>
             </XStack>
 
-            {/* Exercise List */}
             <ScrollView style={{ flex: 1 }}>
                 <YStack paddingHorizontal="$3" gap="$3" marginTop="$3">
                     {exercisesData.map((exercise, exerciseIndex) => (
                         <YStack key={exercise.exercise_name} gap="$3">
-                            {/* Exercise Name */}
-                            <Text 
-                                color="white" 
-                                fontSize="$6" 
-                                fontWeight="400" 
+                            <Text
+                                color="white"
+                                fontSize="$6"
+                                fontWeight="400"
                                 textAlign="center"
                                 marginTop="$2"
                             >
                                 {exercise.exercise_name}
                             </Text>
 
-                            {/* Headers */}
                             <XStack
                                 paddingHorizontal="$4"
                                 justifyContent="space-between"
@@ -292,105 +289,22 @@ export default function RunningWorkoutSessionScreen() {
                                 </XStack>
                             </XStack>
 
-                            {/* Sets */}
-                            {exercise.working_sets.map((set, setIndex) => (
-                                <XStack
-                                    key={setIndex}
-                                    paddingHorizontal="$4"
-                                    justifyContent="space-between"
-                                    alignItems="center"
-                                    marginBottom="$2"
-                                >
-                                    {/* Set Index */}
-                                    <Text
-                                        color="white"
-                                        fontSize="$6"
-                                        fontWeight="400"
-                                        textAlign="center"
-                                    >
-                                        #{setIndex + 1}
-                                    </Text>
-
-                                    {/* Input Container */}
-                                    <XStack gap="$4">
-                                        {/* Reps Input */}
-                                        <YStack
-                                            width={60}
-                                            height={40}
-                                            borderRadius="$2"
-                                            borderWidth={1}
-                                            borderColor="#62EFFF"
-                                            justifyContent="center"
-                                            alignItems="center"
-                                        >
-                                            <Input
-                                                color="white"
-                                                fontSize="$6"
-                                                fontWeight="400"
-                                                textAlign="center"
-                                                textAlignVertical="center"
-                                                width="100%"
-                                                height="100%"
-                                                borderWidth={0}
-                                                backgroundColor="transparent"
-                                                keyboardType="numeric"
-                                                placeholder=""
-                                                paddingVertical={0}
-                                                paddingHorizontal={0}
-                                                value={set.reps === NO_VALUE ? "" : set.reps.toString()}
-                                                onChangeText={(text) => {
-                                                    const value = text === "" ? NO_VALUE : parseInt(text) || 0;
-                                                    updateExerciseData(exercise.exercise_name, setIndex, "reps", value);
-                                                    if (value !== NO_VALUE) {
-                                                        startTimer(exercise.rest_time_in_seconds);
-                                                    }
-                                                }}
-                                            />
-                                        </YStack>
-
-                                        {/* Weight Input */}
-                                        <YStack
-                                            width={60}
-                                            height={40}
-                                            borderRadius="$2"
-                                            borderWidth={1}
-                                            borderColor="#62EFFF"
-                                            justifyContent="center"
-                                            alignItems="center"
-                                        >
-                                            <Input
-                                                color="white"
-                                                fontSize="$6"
-                                                fontWeight="400"
-                                                textAlign="center"
-                                                textAlignVertical="center"
-                                                width="100%"
-                                                height="100%"
-                                                borderWidth={0}
-                                                backgroundColor="transparent"
-                                                keyboardType="numeric"
-                                                placeholder=""
-                                                paddingVertical={0}
-                                                paddingHorizontal={0}
-                                                value={set.weight === NO_VALUE ? "" : set.weight.toString()}
-                                                onChangeText={(text) => {
-                                                    const value = text === "" ? NO_VALUE : parseInt(text) || 0;
-                                                    updateExerciseData(exercise.exercise_name, setIndex, "weight", value);
-                                                }}
-                                            />
-                                        </YStack>
-                                    </XStack>
-                                </XStack>
-                            ))}
+                            {exercise.working_sets.map((set, setIndex) => <WorkingSetView 
+                            sessionExercise={exercise}
+                            set={set}
+                            index={setIndex}
+                            updateExerciseData={updateExerciseData}
+                            startTimer={startTimer}
+                            />)}
                         </YStack>
                     ))}
                 </YStack>
             </ScrollView>
 
             {/* Timer at Bottom */}
-            <YStack 
-                justifyContent="center" 
-                alignItems="center" 
+            <YStack
+                justifyContent="center"
+                alignItems="center"
                 paddingBottom={insets.bottom + 20}
                 marginTop="$4"
             >
